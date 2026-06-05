@@ -1,0 +1,25 @@
+export const MESSAGES = {
+  AUTH: {
+    REGISTER_SUCCESS: 'Account created successfully',
+    LOGIN_SUCCESS: 'Login successful',
+    LOGOUT_SUCCESS: 'Logout successful',
+    TOKEN_REFRESHED: 'Token refreshed successfully',
+    INVALID_CREDENTIALS: 'Invalid email or password',
+    INVALID_EMAIL: 'No account found with this email',
+    INVALID_PASSWORD: 'Incorrect password',
+    UNAUTHORIZED: 'You are not logged in',
+    FORBIDDEN: 'You do not have permission for this action',
+    TOKEN_EXPIRED: 'Session expired, please login again',
+    TOKEN_MISSING: 'Invalid request',
+    DEMO_LOGIN_SUCCESS: 'Demo login successful',
+  },
+  USER: {
+    FETCHED: 'Users fetched successfully',
+    SINGLE_FETCHED: 'User fetched successfully',
+    UPDATED: 'Profile updated successfully',
+    DELETED: 'User deleted successfully',
+    NOT_FOUND: 'User not found',
+    EMAIL_EXISTS: 'This email is already in use',
+    PROFILE_FETCHED: 'Profile fetched successfully',
+  },
+} as const;
