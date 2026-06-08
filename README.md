@@ -43,20 +43,24 @@ Client → HTTP REST → Route → Controller → Service → Model (MongoDB)
 | Projects and tasks were tracked manually. | Modular REST API for projects, tasks, and users. | Full project lifecycle management from one backend service. |
 | Different roles needed varied access. | JWT authentication, refresh-token flow, and role-based authorization for Admin, PM, and Team Member. | Sensitive operations stay protected while each user gets the right visibility. |
 | Critical updates required manual refresh. | Socket.IO-based realtime notification delivery with unread counters. | Users receive updates instantly, keeping the dashboard responsive. |
+| Task discussions needed a dedicated channel. | Comment module with create, update, and delete endpoints per task. | Comments stay linked to tasks for traceability. |
+| Files needed to be shared alongside tasks. | Task attachment upload endpoint supporting up to 5 files via Multer + Cloudinary. | Attachments are stored in the cloud and linked to the relevant task. |
+| Admin needed centralized user control. | User management API with role update (`PATCH /users/:id/role`) and user deletion. | Admins can promote/demote or remove users via a single API. |
 
 ## Features by User Type
 **Admin**
-- Manage all users, projects, and platform settings.
-- Oversee system-level tasks and assignments.
-- Full access to all backend resources and realtime operational logs.
+- Manage all users — list, update roles, and delete accounts.
+- Full CRUD on projects, tasks, comments, and attachments.
+- Oversee system-level operations and realtime logs.
 
 **Project Manager (PM)**
 - Create and edit projects, assign tasks to Team Members.
-- Receive realtime updates when tasks move statuses (e.g., In Progress to Done).
+- Post comments and upload file attachments to tasks.
 - Monitor project workload and progress via dedicated analytics APIs.
 
 **Team Member**
 - Access assigned tasks and update task status.
+- Post comments and upload attachments on assigned tasks.
 - Receive notifications when assigned to new tasks or projects.
 - Self-profile and media management.
 
