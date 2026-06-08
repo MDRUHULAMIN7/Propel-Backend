@@ -12,7 +12,7 @@ import config from './app/config/index.js';
 
 const app: Application = express();
 
-// ── Security ──────────────────────────────────────────────────────
+// ── Security ───────────────────────────────────────────────
 app.use(helmet());
 app.use(
   cors({
