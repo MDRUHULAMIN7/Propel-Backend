@@ -18,7 +18,7 @@ export const registerSchema = z.object({
         'Password must contain uppercase, lowercase and a number',
       ),
     role: z
-      .enum([USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER, USER_ROLES.TEAM_MEMBER])
+      .enum([USER_ROLES.PROJECT_MANAGER, USER_ROLES.TEAM_MEMBER])
       .optional()
       .default(USER_ROLES.TEAM_MEMBER),
   }),

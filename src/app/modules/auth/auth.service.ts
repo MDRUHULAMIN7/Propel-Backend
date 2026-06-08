@@ -89,14 +89,14 @@ export const demoLoginService = async (role: string) => {
   let email = '';
   switch (role) {
     case USER_ROLES.ADMIN:
-      email = 'ruhulAdmin@gmail.com';
+      email = 'ruhuladmin@gmail.com';
       break;
     case USER_ROLES.PROJECT_MANAGER:
-      email = 'ruhulprojectmanager@gmail.com';
+      email = 'mdmahamud59yy@gmail.com';
       break;
     case USER_ROLES.TEAM_MEMBER:
     default:
-      email = 'ruhulteammember@gmail.com';
+      email = 'test@gmail.com';
       break;
   }
 

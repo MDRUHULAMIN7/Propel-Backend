@@ -43,6 +43,10 @@ export const getAllProjectsService = async (
   role: string,
   query: Record<string, unknown>,
 ): Promise<{ projects: IProject[]; meta: PaginationMeta }> => {
+  if (role === USER_ROLES.TEAM_MEMBER) {
+    throw new AppError(MESSAGES.PROJECT.FORBIDDEN, 403);
+  }
+
   const { skip, limit, page, sortObj } = buildPaginationOptions(query);
   const searchFilter = buildSearchFilter(query.search as string, ['name', 'description']);
 
@@ -80,6 +84,10 @@ export const getProjectByIdService = async (
   userId: string,
   role: string,
 ): Promise<IProject> => {
+  if (role === USER_ROLES.TEAM_MEMBER) {
+    throw new AppError(MESSAGES.PROJECT.FORBIDDEN, 403);
+  }
+
   const project = await Project.findById(projectId)
     .populate('owner', 'name email avatar')
     .populate('members', 'name email avatar')
@@ -241,6 +249,10 @@ export const getProjectWorkloadService = async (
   userId: string,
   role: string,
 ): Promise<IMemberWorkload[]> => {
+  if (role === USER_ROLES.TEAM_MEMBER) {
+    throw new AppError(MESSAGES.PROJECT.FORBIDDEN, 403);
+  }
+
   const project = await Project.findById(projectId).populate('members', 'name email avatar');
   if (!project) {
     throw new AppError(MESSAGES.PROJECT.NOT_FOUND, 404);
@@ -279,7 +291,12 @@ export const getProjectWorkloadService = async (
 
 export const getProjectProgressService = async (
   projectId: string,
+  role: string,
 ): Promise<IProjectProgress> => {
+  if (role === USER_ROLES.TEAM_MEMBER) {
+    throw new AppError(MESSAGES.PROJECT.FORBIDDEN, 403);
+  }
+
   const project = await Project.findById(projectId);
   if (!project) {
     throw new AppError(MESSAGES.PROJECT.NOT_FOUND, 404);

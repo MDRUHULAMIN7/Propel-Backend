@@ -116,10 +116,7 @@ export const getProjectWorkload = asyncHandler(async (req: Request, res: Respons
 });
 
 export const getProjectProgress = asyncHandler(async (req: Request, res: Response) => {
-  // Only member check inside getProjectByIdService or we can pass user context if needed.
-  // The service implementation for progress currently doesn't check role in the blueprint, 
-  // but let's assume it should fetch progress without member checks or we can rely on route guards.
-  const result = await getProjectProgressService(req.params.id);
+  const result = await getProjectProgressService(req.params.id, req.user!.role);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,

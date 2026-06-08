@@ -157,6 +157,18 @@ export const updateTaskService = async (
     throw new AppError(MESSAGES.TASK.NOT_FOUND, 404);
   }
 
+  if (role === USER_ROLES.ADMIN) {
+    throw new AppError("Admins can only view tasks, not update them.", 403);
+  }
+
+  if (role === USER_ROLES.PROJECT_MANAGER) {
+    const project = await Project.findById(task.project);
+    const isMember = project?.members.some((m) => m.toString() === userId);
+    if (!isMember) {
+      throw new AppError("You must be a member of this project to update its tasks.", 403);
+    }
+  }
+
   if (role === USER_ROLES.TEAM_MEMBER) {
     if (task.assignedTo?.toString() !== userId) {
       throw new AppError(MESSAGES.TASK.CANNOT_EDIT_OTHERS, 403);
@@ -223,6 +235,18 @@ export const updateTaskStatusService = async (
   const task = await Task.findById(taskId);
   if (!task) {
     throw new AppError(MESSAGES.TASK.NOT_FOUND, 404);
+  }
+
+  if (role === USER_ROLES.ADMIN) {
+    throw new AppError("Admins can only view tasks, not update them.", 403);
+  }
+
+  if (role === USER_ROLES.PROJECT_MANAGER) {
+    const project = await Project.findById(task.project);
+    const isMember = project?.members.some((m) => m.toString() === userId);
+    if (!isMember) {
+      throw new AppError("You must be a member of this project to update its tasks.", 403);
+    }
   }
 
   if (role === USER_ROLES.TEAM_MEMBER) {

@@ -20,6 +20,35 @@ export const globalSearchService = async (
   let projectFilter: any = { ...projectSearchFilter };
   let taskFilter: any = { ...taskSearchFilter };
 
+  if (role === USER_ROLES.TEAM_MEMBER) {
+    const userProjects = await Project.find({ members: new Types.ObjectId(userId) }).select('_id');
+    const projectIds = userProjects.map((p) => p._id);
+    taskFilter = {
+      ...taskFilter,
+      project: { $in: projectIds },
+    };
+
+    const searchPromises: any[] = [
+      Promise.resolve([]),
+      Task.find(taskFilter)
+        .populate('project', 'name')
+        .populate('assignedTo', 'name avatar')
+        .limit(5)
+        .lean(),
+      Promise.resolve([]),
+    ];
+
+    const [projects, tasks, users] = await Promise.all(searchPromises);
+    const totalResults = projects.length + tasks.length + users.length;
+
+    return {
+      projects: projects as unknown as IProject[],
+      tasks: tasks as unknown as ITask[],
+      users: users as unknown as IUser[],
+      totalResults,
+    };
+  }
+
   if (role !== USER_ROLES.ADMIN) {
     projectFilter = {
       ...projectFilter,
@@ -43,7 +72,7 @@ export const globalSearchService = async (
       .lean(),
   ];
 
-  if (role === USER_ROLES.ADMIN) {
+  if (role === USER_ROLES.ADMIN || role === USER_ROLES.PROJECT_MANAGER) {
     searchPromises.push(User.find(userSearchFilter).select('-password').limit(5).lean());
   } else {
     searchPromises.push(Promise.resolve([]));
