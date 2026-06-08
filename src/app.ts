@@ -31,7 +31,7 @@ app.use(
   '/api',
   rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: config.nodeEnv === 'development' ? 10000 : 100,
+    max: config.nodeEnv === 'development' ? 10000 : 1000,
     standardHeaders: true,
     legacyHeaders: false,
     message: { success: false, message: 'Too many requests, please try again later' },
