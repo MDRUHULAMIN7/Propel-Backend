@@ -16,7 +16,12 @@ const app: Application = express();
 app.use(helmet());
 app.use(
   cors({
-    origin: config.clientUrl,
+    origin: [
+      config.clientUrl, 
+      'http://localhost:3000', 
+      'https://propel-frontend-phi.vercel.app',
+      'https://propel-frontend-phi.vercel.app/'
+    ],
     credentials: true,
   }),
 );
